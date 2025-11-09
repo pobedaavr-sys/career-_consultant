@@ -501,6 +501,63 @@
         height: 19px;
         color: var(--dark); /* Dark icon */
       }
+
+      /* New Telegram Channel Block Styles */
+      .telegram-channel-icon-circle {
+        background-color: #f3f5f7;
+        width: 32px; /* 28-32px */
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .telegram-channel-icon-circle svg {
+        width: 17px; /* 16-18px */
+        height: 17px;
+        color: var(--dark); /* Dark icon */
+      }
+
+      .cta-telegram-channel {
+        background-color: white;
+        color: var(--dark);
+        border: 1.5px solid var(--dark);
+        border-radius: 14px; /* 14-16px */
+        height: 46px; /* 44-48px, average 46 */
+        padding: 0 18px; /* 16-20px horiz */
+        font-size: 15px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; /* For the arrow */
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+        flex-shrink: 0; /* Prevent button from shrinking */
+      }
+      .cta-telegram-channel:hover {
+        background-color: rgba(42,58,74,.05);
+        border-color: var(--dark); /* Keep border dark */
+        color: var(--dark); /* Keep text dark */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Slight shadow on hover */
+      }
+      .cta-telegram-channel:active {
+        background-color: rgba(42,58,74,.1); /* Slightly darker on active */
+        transform: translateY(0);
+        box-shadow: none;
+      }
+      .cta-telegram-channel:focus-visible {
+        outline: 2px solid #8AB4F8;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 639px) { /* Tailwind's sm breakpoint */
+          .cta-telegram-channel {
+              width: 100%; /* Full width on mobile */
+          }
+      }
+
     </style>
 
     <!-- Tailwind CSS CDN -->
@@ -694,19 +751,19 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
+                <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">1</div>
                     <h3 class="font-semibold text-dark mb-3">Маркетинговый взгляд на карьеру</h3>
                     <p class="text-ink-muted">Мы создаем ваш персональный бренд на рынке труда: кому вы нужны, за что платят, чем вы отличаетесь, какие форматы подачи сработают.</p>
                 </div>
                 <!-- Card 2 -->
-                <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
+                <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">2</div>
                     <h3 class="font-semibold text-dark mb-3">Структурный подход</h3>
                     <p class="text-ink-muted">Пошаговая стратегия к вашей цели: диагностика → позиционирование → документы → каналы поиска → сопровождение на этапах.</p>
                 </div>
                 <!-- Card 3 -->
-                <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
+                <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">3</div>
                     <h3 class="font-semibold text-dark mb-3">Прозрачные результаты</h3>
                     <p class="text-ink-muted">Вы всегда знаете, чего мы достигнем и как: в начале фиксируем цель и критерии готовности (резюме, портфолио, количество откликов, собеседования).</p>
@@ -1009,6 +1066,25 @@
                   <span>Написать в Telegram: @ViktoriMelchakova</span>
                 </a>
               </div>
+
+              <!-- NEW TELEGRAM CHANNEL BLOCK -->
+              <div class="mt-5 p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-[16px] bg-white border-[1.5px] border-[rgba(42,58,74,.18)] text-left">
+                  <div class="flex items-start sm:items-center gap-3">
+                      <div class="telegram-channel-icon-circle" aria-hidden="true">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.25 18.75a60.076 60.076 0 0115.794 3.337.75.75 0 00.75-1.282V5.113a1.5 1.5 0 00-1.077-1.488L2.25 18.75zM2.25 18.75V8.587A1.5 1.5 0 013.327 7.1L18.956 2.656a.75.75 0 01.994.09l1.157 1.341a.75.75 0 01-.094 1.168L2.25 18.75z" />
+                          </svg>
+                      </div>
+                      <div>
+                          <h3 class="font-bold text-base md:text-lg text-dark mb-1 leading-tight">Канал в Telegram</h3>
+                          <p class="text-sm md:text-[15px] text-[#404754] leading-normal">Канал, в котором много информации о нюансах поиска работы.</p>
+                      </div>
+                  </div>
+                  <a href="https://t.me/biznescomanda" target="_blank" rel="noopener noreferrer" class="cta-telegram-channel w-full sm:w-auto" aria-label="Подписаться на Telegram-канал">
+                      Подписаться →
+                  </a>
+              </div>
+
             </div>
           </div>
         </section>
