@@ -51,13 +51,17 @@
         --action-color: #B8860B; /* New accent color: DarkGoldenrod */
         --radius-lg: 20px;
         --section-gap: 64px;
-        --container: 1180px;
+        /* --container: 1180px;  Removed for new page-container */
         --about-card-grad: linear-gradient(140deg, #f8f6f3 0%, #f0e3d4 100%); /* New variable */
         --consult-grad: linear-gradient(130deg, #2a3a4a 0%, #1e2a36 100%); /* New variable for consult section */
         --header-height-offset: 100px; /* Increased for better visibility with taller header */
         --light-warm-bg: #f8f6f3; /* New variable for light warm background */
         --dark-hover: #334354; /* 5% lighter than --dark */
         --panel-bg: #f3ede6; /* Background for section-panel */
+
+        /* New variables for desktop grid */
+        --container-max: 1240px;
+        --gutter-x: clamp(24px, 3.5vw, 32px);
       }
 
       html {
@@ -71,11 +75,21 @@
         color: var(--ink);
         margin: 0;
       }
+      /* Old container, replaced by .page-container for main content sections */
       .container {
-        max-width: var(--container);
+        max-width: var(--container-max);
         margin: 0 auto;
-        padding: 0 16px;
+        padding: 0 24px; /* Updated from 16px to 24px */
       }
+      /* New page-container for main content sections, using new variables */
+      .page-container {
+        max-width: var(--container-max);
+        width: min(var(--container-max), 100%);
+        margin: 0 auto;
+        padding-left: var(--gutter-x);
+        padding-right: var(--gutter-x);
+      }
+
       section {
         margin-bottom: var(--section-gap);
         /* Add scroll-margin-top to prevent content from being hidden by fixed header */
@@ -102,6 +116,7 @@
         font-size: 1.25rem; /* Equivalent to text-xl */
         font-weight: bold;
         margin-bottom: 0.75rem; /* Spacing below the icon, decreased */
+        flex-shrink: 0; /* Prevent badge from shrinking in flex parent */
       }
       .process-step-number-circle {
         display: flex;
@@ -116,6 +131,7 @@
         font-size: 1.5rem; /* text-2xl */
         font-weight: bold;
         margin-bottom: 0.75rem; /* Spacing below the icon, decreased */
+        flex-shrink: 0; /* Prevent badge from shrinking in flex parent */
       }
       /* New style for stage number badges */
       .stage-number-badge {
@@ -130,6 +146,7 @@
           font-size: 1.25rem; /* text-xl */
           font-weight: bold;
           margin-bottom: 0.75rem; /* Spacing below badge, decreased */
+          flex-shrink: 0; /* Prevent badge from shrinking in flex parent */
       }
       /* New style for client segment number badges */
       .client-segment-badge {
@@ -355,6 +372,19 @@
               margin-right: initial;
           }
       }
+      /* New class for sub-lead paragraphs after headings */
+      .section-lead-text {
+        max-width: 560px; /* Default for mobile/tablet */
+        margin-left: auto;
+        margin-right: auto;
+      }
+      @media (min-width: 1024px) {
+        .section-lead-text.lg\:text-left {
+            margin-left: 0;
+            margin-right: initial;
+        }
+      }
+
 
       /* Section Panel for #for-whom */
       .section-panel {
@@ -564,6 +594,189 @@
           }
       }
 
+      /* Custom styles for Hero Section */
+      .hero-content-wrapper {
+        display: flex; /* Default to flex for mobile-first */
+        flex-direction: column;
+        align-items: center; /* Center items on mobile */
+        gap: 24px; /* Default gap for max-width: 767px (sm breakpoint) */
+      }
+      .hero-image-wrapper { /* image container in hero */
+        display: flex; /* Ensures image inside is centered by default */
+        justify-content: center;
+        width: clamp(300px, 92vw, 480px); /* Specific width for max-width: 767px */
+      }
+      .hero-text-column {
+        text-align: center;
+      }
+      
+      @media (min-width: 768px) { /* md breakpoint */
+        .hero-content-wrapper {
+          gap: 32px; /* gap for 768px to 1199px */
+        }
+        .hero-image-wrapper { /* image in hero */
+          width: clamp(360px, 80vw, 520px);
+        }
+      }
+
+      @media (min-width: 1200px) { /* Custom breakpoint for 2-column grid */
+        .hero-content-wrapper {
+          display: grid;
+          /* grid-template-columns: minmax(560px, 1fr) minmax(520px, 560px);  - Previous */
+          grid-template-columns: 1fr 1fr; /* New: two equal columns */
+          /* column-gap: 56px; - Previous */
+          column-gap: clamp(40px, 5vw, 56px); /* New: clamp gap */
+          align-items: center;
+          gap: initial; /* Remove row gap in grid layout */
+        }
+        .hero-image-wrapper { /* image in hero */
+          justify-self: end;
+          margin-right: 0; /* ensure it's flush with container right edge */
+          width: clamp(460px, 42vw, 560px);
+        }
+        .hero-text-column {
+          text-align: left;
+        }
+      }
+
+      /* Custom styles for About Section */
+      .about-content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr; /* Default to single column for mobile and smaller desktops */
+        gap: 48px; /* Default gap for smaller screens */
+      }
+      .about-image-wrapper { /* image container in about */
+        display: flex;
+        justify-content: center; /* Center image by default */
+      }
+      .about-image-wrapper img {
+        width: 100%; /* Ensure image fills its container */
+        max-width: 500px; /* Original max-width for image */
+      }
+
+      @media (min-width: 1024px) { /* lg breakpoint - applies original lg grid behavior */
+        .about-content-wrapper {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 64px; /* lg:gap-16 */
+        }
+        .about-image-wrapper {
+            justify-content: flex-start; /* Original lg:justify-start */
+        }
+      }
+
+      @media (min-width: 1200px) { /* Custom breakpoint for desired grid */
+        .about-content-wrapper {
+          /* grid-template-columns: minmax(560px, 1fr) minmax(520px, 560px); - Previous */
+          grid-template-columns: 1fr 1fr; /* New: two equal columns */
+          /* column-gap: 56px; - Previous */
+          column-gap: clamp(40px, 5vw, 56px); /* New: clamp gap */
+          gap: initial; /* Remove row gap */
+          align-items: center; /* Align items for equal height columns */
+        }
+        .about-image-wrapper {
+          justify-self: start;
+        }
+        .about-image-wrapper img {
+          width: clamp(460px, 42vw, 560px); /* Override max-w-[500px] w-full */
+        }
+        .about-text-wrapper {
+          justify-self: start;
+        }
+      }
+
+      /* Consultation section specific adjustments */
+      #consultation .container { /* This .container will be replaced by .page-container for consistency */
+        padding-top: 48px; /* Increased top padding */
+        padding-bottom: 48px; /* Increased bottom padding */
+      }
+      #consultation .bg-white {
+        padding: 32px; /* Increased padding inside the card */
+      }
+      @media (min-width: 768px) { /* md breakpoint */
+        #consultation .bg-white {
+            padding: 40px; /* Even more padding on larger screens */
+        }
+      }
+      /* Ensure the phone button takes up full width on small screens in the card */
+      #consultation .grid.grid-cols-1 {
+        gap: 0; /* Remove gap if only one item is left */
+      }
+
+      /* New styling for readable text column width */
+      .prose {
+        max-width: 68ch; /* Default */
+      }
+      /* Ensure it aligns left on desktop if parent is left-aligned */
+      @media (min-width: 1024px) {
+        .prose.lg\:text-left {
+            margin-left: 0;
+            margin-right: initial;
+        }
+      }
+
+      /* How I work section cards grid */
+      .cards-grid {
+        display: grid; /* Default for mobile/tablet to allow existing Tailwind classes */
+        grid-template-columns: 1fr; /* Default to single column */
+        gap: 24px; /* Default gap from existing layout */
+      }
+      @media (min-width: 768px) { /* md breakpoint */
+        .cards-grid {
+          grid-template-columns: repeat(3, 1fr); /* Original was repeat(3,1fr) for md */
+        }
+      }
+      @media (min-width: 1200px) { /* Custom breakpoint for 3-column grid */
+        .cards-grid {
+          grid-template-columns: repeat(3, minmax(280px, 1fr));
+          gap: clamp(20px, 2.5vw, 28px);
+        }
+        /* Adjust card-tight padding for cards within cards-grid */
+        .cards-grid .card-tight {
+          padding: 18px 20px;
+        }
+      }
+
+      /* Metrics grid under About Me section */
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); /* Default for mobile */
+        gap: 16px;
+      }
+      @media (min-width: 640px) { /* sm breakpoint */
+        .metrics {
+          grid-template-columns: repeat(2, 1fr); /* Existing sm:grid-cols-2 */
+        }
+      }
+      @media (min-width: 1200px) { /* Custom breakpoint for 4-column grid */
+        .metrics {
+          grid-template-columns: repeat(4, minmax(220px, 1fr));
+          gap: 16px; /* Explicitly set for clarity */
+        }
+      }
+
+      /* Base typography for p, li on desktop */
+      @media (min-width: 1200px) {
+        main p, main li { /* Target p and li within main content */
+          font-size: clamp(16px, 1.05vw, 18px);
+          line-height: 1.55;
+        }
+      }
+
+      /* Vertical rhythm for sections and headings on desktop */
+      @media (min-width: 1200px) {
+        section {
+          margin-top: clamp(40px, 6vw, 72px);
+          margin-bottom: clamp(40px, 6vw, 72px);
+        }
+        h2 {
+          margin-bottom: clamp(12px, 1.6vw, 18px);
+        }
+        /* Apply to the lead paragraph that follows h2 and section-line-accent */
+        .section-lead-text {
+            margin-bottom: clamp(16px, 2vw, 24px);
+        }
+      }
+
     </style>
 
     <!-- Tailwind CSS CDN -->
@@ -659,19 +872,21 @@
     <main class="flex-grow pt-20 md:pt-24">
         <!-- Hero Section -->
         <section class="bg-page-bg py-20 lg:py-28 mb-16">
-          <div class="container flex flex-col lg:flex-row items-center gap-12">
+          <div class="page-container hero-content-wrapper">
             <!-- Left Column -->
-            <div class="lg:w-1/2 text-center lg:text-left">
+            <div class="hero-text-column">
               <p class="hero-highlight-text text-sm uppercase tracking-wide mb-2">
                 <mark class="bg-transparent text-[#c57f7f] font-bold">Карьерный консультант • сопровождение изменений</mark>
               </p>
               <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight">
                 Помогаю выстроить карьеру, которая приносит деньги и удовольствие
               </h1>
-              <p class="text-lg md:text-xl text-ink-muted mb-6">
-                Работаю с руководителями, экспертами и теми, кто “застрял” в профессии. Диагностика, CV и профиль на HH, стратегия поиска и переговоры об условиях.
-              </p>
-              <p class="text-ink-soft text-sm md:text-base mb-10 hero-consultation-details">Что входит в консультацию: диагностика → упаковка → стратегия поиска → сопровождение</p>
+              <div class="prose">
+                <p class="text-lg md:text-xl text-ink-muted mb-6">
+                  Работаю с руководителями, экспертами и теми, кто “застрял” в профессии. Диагностика, CV и профиль на HH, стратегия поиска и переговоры об условиях.
+                </p>
+                <p class="text-ink-soft text-sm md:text-base mb-10 hero-consultation-details">Что входит в консультацию: диагностика → упаковка → стратегия поиска → сопровождение</p>
+              </div>
               <a
                 href="#consultation"
                 class="inline-block cta-main-hero shadow-lg hover:shadow-xl transition-all duration-300 w-full lg:w-auto cta-align"
@@ -680,11 +895,11 @@
               </a>
             </div>
             <!-- Right Column -->
-            <div class="lg:w-1/2 flex justify-center">
+            <div class="hero-image-wrapper">
               <img
                 src="https://raw.githubusercontent.com/pobedaavr-sys/is-odniki_sait_viki/main/G_l.png"
                 alt="Мельчакова Виктория"
-                class="img-panel max-w-full lg:max-w-xl"
+                class="img-panel max-w-full"
                 width="720"
                 height="480"
               />
@@ -693,20 +908,20 @@
         </section>
 
         <!-- Кто я (Обо мне) -->
-        <section id="about" class="container py-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <section id="about" class="page-container py-16">
+            <div class="about-content-wrapper">
                 <!-- Left Column: Image -->
-                <div class="flex justify-center lg:justify-start lg:order-1">
+                <div class="about-image-wrapper lg:order-1">
                     <img
                         src="https://raw.githubusercontent.com/pobedaavr-sys/is-odniki_sait_viki/main/Vik2.png"
                         alt="Фото Мельчаковой Виктории"
-                        class="img-panel object-cover h-full min-h-[400px] lg:min-h-[600px] w-full max-w-[500px]"
+                        class="img-panel object-cover h-full min-h-[400px] lg:min-h-[600px]"
                         width="500"
                         height="600"
                     />
                 </div>
                 <!-- Right Column: Text & Cards -->
-                <div class="flex flex-col lg:order-2">
+                <div class="about-text-wrapper flex flex-col lg:order-2">
                     <p class="text-ink-muted text-sm uppercase tracking-wide mb-3 flex items-center justify-center lg:justify-start">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-1 text-[#c57f7f]">
                             <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd" />
@@ -717,10 +932,12 @@
                         Мельчакова Виктория – Карьерный Эксперт
                     </h2>
                     <div class="section-line-accent mx-auto lg:mx-0 mb-8"></div>
-                    <p class="text-xl md:text-2xl text-ink-muted mb-10 max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
-                        Я карьерный эксперт с более чем 12-летним опытом, помогающий руководителям и специалистам строить успешную карьеру, которая приносит удовлетворение и финансовое благополучие. Моя миссия — раскрыть ваш потенциал и направить его в нужное русло.
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="prose lg:text-left">
+                      <p class="text-xl md:text-2xl text-ink-muted mb-10 max-w-2xl text-center lg:text-left mx-auto lg:mx-0 section-lead-text">
+                          Я карьерный эксперт с более чем 12-летним опытом, помогающий руководителям и специалистам строить успешную карьеру, которая приносит удовлетворение и финансовое благополучие. Моя миссия — раскрыть ваш потенциал и направить его в нужное русло.
+                      </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 metrics">
                         <!-- Card 1 -->
                         <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] text-center interactive-card card-tight">
                             <p class="text-3xl font-bold text-dark mb-2">12+ лет</p>
@@ -747,44 +964,50 @@
         </section>
 
         <!-- Как работаю (New Section) -->
-        <section id="how-i-work" class="container py-16">
+        <section id="how-i-work" class="page-container py-16">
             <div class="text-center lg:text-left mb-8">
                 <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">Как работаю</h2>
                 <div class="section-line-accent mx-auto lg:mx-0"></div>
             </div>
-            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left">
+            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left section-lead-text">
                 Мы используем стратегический подход, чтобы выстроить вашу карьеру на основе ваших уникальных сильных сторон и рыночных возможностей.
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 cards-grid">
                 <!-- Card 1 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">1</div>
                     <h3 class="font-semibold text-dark mb-3">Маркетинговый взгляд на карьеру</h3>
-                    <p class="text-ink-muted">Мы создаем ваш персональный бренд на рынке труда: кому вы нужны, за что платят, чем вы отличаетесь, какие форматы подачи сработают.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted">Мы создаем ваш персональный бренд на рынке труда: кому вы нужны, за что платят, чем вы отличаетесь, какие форматы подачи сработают.</p>
+                    </div>
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">2</div>
                     <h3 class="font-semibold text-dark mb-3">Структурный подход</h3>
-                    <p class="text-ink-muted">Пошаговая стратегия к вашей цели: диагностика → позиционирование → документы → каналы поиска → сопровождение на этапах.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted">Пошаговая стратегия к вашей цели: диагностика → позиционирование → документы → каналы поиска → сопровождение на этапах.</p>
+                    </div>
                 </div>
                 <!-- Card 3 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <div class="icon-badge">3</div>
                     <h3 class="font-semibold text-dark mb-3">Прозрачные результаты</h3>
-                    <p class="text-ink-muted">Вы всегда знаете, чего мы достигнем и как: в начале фиксируем цель и критерии готовности (резюме, портфолио, количество откликов, собеседования).</p>
+                    <div class="prose">
+                      <p class="text-ink-muted">Вы всегда знаете, чего мы достигнем и как: в начале фиксируем цель и критерии готовности (резюме, портфолио, количество откликов, собеседования).</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Кому подойдёт консультация (New Client Segments Section) -->
         <section id="for-whom" class="py-16">
-            <div class="container section-panel">
+            <div class="page-container section-panel">
                 <!-- Section Header/Subheader -->
                 <div class="text-center lg:text-left mb-12">
                     <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">Кому подойдёт консультация</h2>
                     <div class="section-line-accent mx-auto lg:mx-0"></div>
-                    <p class="text-ink-muted section-description-limit text-xl lg:text-lg mx-auto lg:mx-0">
+                    <p class="text-ink-muted section-description-limit text-xl lg:text-lg mx-auto lg:mx-0 section-lead-text">
                         Я работаю с руководителями и специалистами, которые хотят роста и готовы инвестировать время в упаковку и стратегию.
                     </p>
                 </div>
@@ -799,11 +1022,13 @@
                             </div>
                             <div class="flex-grow text-center sm:text-left">
                                 <h3 class="font-semibold text-dark mb-2">Руководитель или Специалист (Middle+), стремящийся к рывку</h3>
-                                <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
-                                    <li>Хотите занять позицию Director/Head/VP.</li>
-                                    <li>Цель — увеличение дохода на 50%+.</li>
-                                    <li>Планируете переход в международную компанию или релокейт.</li>
-                                </ul>
+                                <div class="prose">
+                                  <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
+                                      <li>Хотите занять позицию Director/Head/VP.</li>
+                                      <li>Цель — увеличение дохода на 50%+.</li>
+                                      <li>Планируете переход в международную компанию или релокейт.</li>
+                                  </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -817,11 +1042,13 @@
                             </div>
                             <div class="flex-grow text-center sm:text-left">
                                 <h3 class="font-semibold text-dark mb-2">Опытный профессионал (35+) в поисках нового вектора</h3>
-                                <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
-                                    <li>Столкнулись с выгоранием или потолком в карьере.</li>
-                                    <li>Хотите сменить сферу, сохранив доходный уровень.</li>
-                                    <li>Ищете способ монетизировать опыт (консалтинг, советник, свой проект).</li>
-                                </ul>
+                                <div class="prose">
+                                  <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
+                                      <li>Столкнулись с выгоранием или потолком в карьере.</li>
+                                      <li>Хотите сменить сферу, сохранив доходный уровень.</li>
+                                      <li>Ищете способ монетизировать опыт (консалтинг, советник, свой проект).</li>
+                                  </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -835,10 +1062,12 @@
                             </div>
                             <div class="flex-grow text-center sm:text-left">
                                 <h3 class="font-semibold text-dark mb-2">Специалист в активном поиске (3+ месяца)</h3>
-                                <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
-                                    <li>Проходите собеседования, но не получаете оффер.</li>
-                                    <li>Не понимаете, как упаковать опыт для позиций высокого уровня.</li>
-                                </ul>
+                                <div class="prose">
+                                  <ul class="text-ink-muted text-base list-disc pl-5 space-y-1">
+                                      <li>Проходите собеседования, но не получаете оффер.</li>
+                                      <li>Не понимаете, как упаковать опыт для позиций высокого уровня.</li>
+                                  </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -851,7 +1080,7 @@
                             </div>
                             <div class="flex-grow text-center sm:text-left max-w-lg">
                                 <h3 class="font-semibold text-white mb-4">Результаты карьерного консультирования</h3>
-                                <div class="space-y-3 client-accent-text-content">
+                                <div class="space-y-3 client-accent-text-content prose">
                                     <p>По итогам консультации вы определите свои сильные стороны и преимущества в вашей отрасли и поймёте, в каком направлении двигаться.</p>
                                     <p>Вместе с консультантом вы составите персональный план карьерного роста, подготовите идеальное резюме и проработаете навыки профессиональной самопрезентации.</p>
                                     <p>Также вы освоите тонкости делового общения и повысите свою самооценку.</p>
@@ -872,46 +1101,54 @@
         </section>
 
         <!-- Этапы карьерной консультации (Updated Section for service packages) -->
-        <section id="service-stages" class="py-16">
-            <div class="container">
+        <section id="service-stages" class="py-16 page-container">
+            <div class="">
                 <!-- Section Header/Subheader -->
                 <div class="text-center lg:text-left mb-12">
                     <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">Этапы карьерной консультации</h2>
                     <div class="section-line-accent mx-auto lg:mx-0"></div>
-                    <p class="text-ink-muted section-description-limit text-xl lg:text-lg mx-auto lg:mx-0">
+                    <p class="text-ink-muted section-description-limit text-xl lg:text-lg mx-auto lg:mx-0 section-lead-text">
                         Пошагово пройдём путь от понимания задачи до выхода на новый уровень дохода и роли.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
                     <!-- Left Column: Four cards with numbers -->
-                    <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-6 cards-grid">
                         <!-- Card 1: Оценка ситуации и постановка проблемы -->
                         <div class="flex flex-col bg-card-bg text-ink rounded-2xl shadow-md interactive-card card-tight">
                             <div class="stage-number-badge">01</div>
                             <h3 class="font-semibold text-dark mb-2">Оценка ситуации и постановка проблемы</h3>
-                            <p class="text-ink-muted">Проанализируем особенности карьерного развития, выясним, почему не устраивало предыдущее место работы, и зафиксируем ваши пожелания по поводу нового работодателя.</p>
+                            <div class="prose">
+                              <p class="text-ink-muted">Проанализируем особенности карьерного развития, выясним, почему не устраивало предыдущее место работы, и зафиксируем ваши пожелания по поводу нового работодателя.</p>
+                            </div>
                         </div>
 
                         <!-- Card 2: Анализ рынка труда и заработных плат -->
                         <div class="flex flex-col bg-card-bg text-ink rounded-2xl shadow-md interactive-card card-tight">
                             <div class="stage-number-badge">02</div>
                             <h3 class="font-semibold text-dark mb-2">Анализ рынка труда и заработных плат</h3>
-                            <p class="text-ink-muted">Узнаем, какие карьерные возможности есть в данный момент на рынке, и насколько они отвечают вашим запросам. Поделимся тенденциями и проанализируем уровень ваших зарплатных ожиданий на основании исследования.</p>
+                            <div class="prose">
+                              <p class="text-ink-muted">Узнаем, какие карьерные возможности есть в данный момент на рынке, и насколько они отвечают вашим запросам. Поделимся тенденциями и проанализируем уровень ваших зарплатных ожиданий на основании исследования.</p>
+                            </div>
                         </div>
 
                         <!-- Card 3: Подготовка к поиску работы -->
                         <div class="flex flex-col bg-card-bg text-ink rounded-2xl shadow-md interactive-card card-tight">
                             <div class="stage-number-badge">03</div>
                             <h3 class="font-semibold text-dark mb-2">Подготовка к поиску работы</h3>
-                            <p class="text-ink-muted">Поможем подготовить план карьерного продвижения и определить наиболее эффективные приёмы для достижения поставленных целей.</p>
+                            <div class="prose">
+                              <p class="text-ink-muted">Поможем подготовить план карьерного продвижения и определить наиболее эффективные приёмы для достижения поставленных целей.</p>
+                            </div>
                         </div>
                         
                         <!-- Card 4: Поиск работы и консультационная поддержка -->
                         <div class="flex flex-col bg-card-bg text-ink rounded-2xl shadow-md interactive-card card-tight">
                             <div class="stage-number-badge">04</div>
                             <h3 class="font-semibold text-dark mb-2">Поиск работы и консультационная поддержка</h3>
-                            <p class="text-ink-muted">Проведем оценку вашего резюме на предмет структуры и подачи информации и поможем составить сопроводительное письмо, расскажем о психологических особенностях прохождения собеседования, научим владеть эмоциями и грамотно взаимодействовать с потенциальными работодателями.</p>
+                            <div class="prose">
+                              <p class="text-ink-muted">Проведем оценку вашего резюме на предмет структуры и подачи информации и поможем составить сопроводительное письмо, расскажем о психологических особенностях прохождения собеседования, научим владеть эмоциями и грамотно взаимодействовать с потенциальными работодателями.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -929,21 +1166,23 @@
         </section>
 
         <!-- Как проходит работа (Updated Process Section) -->
-        <section id="process" class="container py-16">
+        <section id="process" class="page-container py-16">
             <div class="text-center lg:text-left mb-4">
                 <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">С чего начнем</h2>
                 <div class="section-line-accent mx-auto lg:mx-0"></div>
             </div>
-            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left">
+            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left section-lead-text">
                 Процесс прозрачный, вы всегда понимаете, что мы делаем и зачем.
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative md:before:content-[''] md:before:absolute md:before:inset-x-0 md:before:top-[120px] md:before:h-0.5 md:before:bg-gray-300 md:before:z-0">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative md:before:content-[''] md:before:absolute md:before:inset-x-0 md:before:top-[120px] md:before:h-0.5 md:before:bg-gray-300 md:before:z-0 cards-grid">
                 <!-- Step 1: Диагностика -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] relative z-10 interactive-card card-tight">
                     <div class="process-step-number-circle mx-auto md:mx-0">1</div>
                     <h3 class="font-semibold text-dark mb-2">Диагностика</h3>
-                    <p class="text-ink-muted mb-2">Вы рассказываете, что сейчас происходит и чего хотите. Формулируем задачу.</p>
-                    <p class="text-ink-soft text-sm italic">Итог: Четкое понимание вашей ситуации и карьерных целей.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted mb-2">Вы рассказываете, что сейчас происходит и чего хотите. Формулируем задачу.</p>
+                      <p class="text-ink-soft text-sm italic">Итог: Четкое понимание вашей ситуации и карьерных целей.</p>
+                    </div>
                     <div class="absolute right-0 top-1/2 -mr-8 hidden md:block">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
@@ -954,8 +1193,10 @@
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] relative z-10 interactive-card card-tight">
                     <div class="process-step-number-circle mx-auto md:mx-0">2</div>
                     <h3 class="font-semibold text-dark mb-2">Позиционирование</h3>
-                    <p class="text-ink-muted mb-2">Определяем целевые роли, уровень и ключевые аргументы, почему вас стоит рассмотреть.</p>
-                    <p class="text-ink-soft text-sm italic">Итог: Ваше уникальное торговое предложение на рынке труда.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted mb-2">Определяем целевые роли, уровень и ключевые аргументы, почему вас стоит рассмотреть.</p>
+                      <p class="text-ink-soft text-sm italic">Итог: Ваше уникальное торговое предложение на рынке труда.</p>
+                    </div>
                     <div class="absolute right-0 top-1/2 -mr-8 hidden md:block">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
@@ -966,8 +1207,10 @@
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] relative z-10 interactive-card card-tight">
                     <div class="process-step-number-circle mx-auto md:mx-0">3</div>
                     <h3 class="font-semibold text-dark mb-2">Упаковка</h3>
-                    <p class="text-ink-muted mb-2">Резюме, профиль, сопроводительные, портфолио (если нужно).</p>
-                    <p class="text-ink-soft text-sm italic">Итог: Полностью готовые документы для активного поиска.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted mb-2">Резюме, профиль, сопроводительные, портфолио (если нужно).</p>
+                      <p class="text-ink-soft text-sm italic">Итог: Полностью готовые документы для активного поиска.</p>
+                    </div>
                     <div class="absolute right-0 top-1/2 -mr-8 hidden md:block">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
@@ -978,76 +1221,88 @@
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] relative z-10 interactive-card card-tight">
                     <div class="process-step-number-circle mx-auto md:mx-0">4</div>
                     <h3 class="font-semibold text-dark mb-2">Сопровождение</h3>
-                    <p class="text-ink-muted mb-2">Помощь с откликами и собеседованиями, корректировки по ходу поиска.</p>
-                    <p class="text-ink-soft text-sm italic">Итог: Уверенность и поддержка до получения оффера.</p>
+                    <div class="prose">
+                      <p class="text-ink-muted mb-2">Помощь с откликами и собеседованиями, корректировки по ходу поиска.</p>
+                      <p class="text-ink-soft text-sm italic">Итог: Уверенность и поддержка до получения оффера.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Примеры запросов клиентов (New Cases Section) -->
-        <section id="cases" class="container py-16">
+        <section id="cases" class="page-container py-16">
             <div class="text-center lg:text-left mb-8">
                 <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">Примеры запросов клиентов</h2>
                 <div class="section-line-accent mx-auto lg:mx-0"></div>
             </div>
-            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left">
+            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left section-lead-text">
                 Все примеры обезличены. Показываю логику движения, а не “идеальные истории”.
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cards-grid">
                 <!-- Case Card 1 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <h3 class="font-semibold text-dark mb-2">Хочу из экспертов в руководители</h3>
-                    <p class="text-ink-soft mb-4 text-sm">6 недель • упаковка + тренировка собеседований</p>
-                    <p class="text-ink-muted">Переписали опыт под управленческую роль, сделали акцент на результатах, подобрали 3–4 подходящие отрасли.</p>
+                    <div class="prose">
+                      <p class="text-ink-soft mb-4 text-sm">6 недель • упаковка + тренировка собеседований</p>
+                      <p class="text-ink-muted">Переписали опыт под управленческую роль, сделали акцент на результатах, подобрали 3–4 подходящие отрасли.</p>
+                    </div>
                 </div>
                 <!-- Case Card 2 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <h3 class="font-semibold text-dark mb-2">Перерыв в работе 1,5 года</h3>
-                    <p class="text-ink-soft mb-4 text-sm">4 недели • коммуникационная стратегия</p>
-                    <p class="text-ink-muted">Собрали объяснение перерыва, перестроили резюме на кейсы, сделали мягкий вход через проектную занятость.</p>
+                    <div class="prose">
+                      <p class="text-ink-soft mb-4 text-sm">4 недели • коммуникационная стратегия</p>
+                      <p class="text-ink-muted">Собрали объяснение перерыва, перестроили резюме на кейсы, сделали мягкий вход через проектную занятость.</p>
+                    </div>
                 </div>
                 <!-- Case Card 3 -->
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
                     <h3 class="font-semibold text-dark mb-2">Переезд в другой регион/страну</h3>
-                    <p class="text-ink-soft mb-4 text-sm">8 недель • формат сопровождения</p>
-                    <p class="text-ink-muted">Выстроили новое позиционирование под локальный рынок, адаптировали документы и подготовили к англоязычному интервью.</p>
+                    <div class="prose">
+                      <p class="text-ink-soft mb-4 text-sm">8 недель • формат сопровождения</p>
+                      <p class="text-ink-muted">Выстроили новое позиционирование под локальный рынок, адаптировали документы и подготовили к англоязычному интервью.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Примеры -->
-        <section id="examples" class="container py-16">
+        <section id="examples" class="page-container py-16">
             <div class="text-center lg:text-left mb-8">
                 <h2 class="sec-strong section-heading-with-marker text-center lg:text-left">Истории успеха</h2>
                 <div class="section-line-accent mx-auto lg:mx-0"></div>
             </div>
-            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left">
+            <p class="text-ink-muted section-description-limit mb-8 text-center md:text-left lg:text-left section-lead-text">
                 Реальные отзывы клиентов, которые достигли своих карьерных целей с моей помощью.
             </p>
-            <div class="grid md:grid-cols-2 gap-8">
+            <div class="grid md:grid-cols-2 gap-8 cards-grid">
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
-                <blockquote class="text-ink-muted italic mb-4">
-                    "Благодаря Виктории я не только нашел работу своей мечты, но и значительно вырос как профессионал. Рекомендую!"
-                </blockquote>
-                <p class="font-semibold text-dark">- Анна К., IT-специалист</p>
+                <div class="prose">
+                  <blockquote class="text-ink-muted italic mb-4">
+                      "Благодаря Виктории я не только нашел работу своей мечты, но и значительно вырос как профессионал. Рекомендую!"
+                  </blockquote>
+                  <p class="font-semibold text-dark">- Анна К., IT-специалист</p>
+                </div>
                 </div>
                 <div class="bg-card-bg rounded-2xl shadow-[0_4px_10px_rgba(0,0,0,0.08)] interactive-card card-tight">
-                <blockquote class="text-ink-muted italic mb-4">
-                    "Виктория помогла мне пересмотреть свою карьеру и найти новую, вдохновляющую сферу. Её поддержка бесценна."
-                </blockquote>
-                <p class="font-semibold text-dark">- Дмитрий С., Маркетолог</p>
+                <div class="prose">
+                  <blockquote class="text-ink-muted italic mb-4">
+                      "Виктория помогла мне пересмотреть свою карьеру и найти новую, вдохновляющую сферу. Её поддержка бесценна."
+                  </blockquote>
+                  <p class="font-semibold text-dark">- Дмитрий С., Маркетолог</p>
+                </div>
                 </div>
             </div>
         </section>
 
         <!-- Консультация (New Consult Form Section) -->
         <section id="consultation" class="bg-consult-grad py-10 md:py-12 lg:py-14">
-          <div class="container mx-auto px-4">
+          <div class="page-container mx-auto px-4">
             <div class="bg-white rounded-[22px] shadow-xl border border-gray-100 p-4 md:p-5 max-w-[800px] mx-auto text-center">
               
               <div class="grid grid-cols-1 justify-items-center mt-6">
                 <!-- Phone Button -->
-                <a href="tel:+79215925158" class="cta-contact-btn" aria-label="Позвонить Виктории по телефону">
+                <a href="tel:+79215925158" class="cta-contact-btn" aria-label="Позвонить Виктории, карьерному эксперту">
                   <div class="cta-contact-icon-circle">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                       <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.860 0 1.610.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.907L6.75 11.25a11.25 11.25 0 0011.25 11.25l1.44-1.757a1.875 1.875 0 011.907-.606h4.423c.834.209 1.42.959 1.42 1.819V19.5a3 3 0 01-3 3h-2.25C10.065 22.5 1.5 13.935 1.5 4.5V2.25z" clip-rule="evenodd" />
