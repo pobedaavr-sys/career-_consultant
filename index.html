@@ -451,6 +451,56 @@
         line-height: normal; /* Changed to normal for more predictable text centering with flex */
         font-size: 15px; /* Standardize font-size for all CTA buttons */
       }
+
+      /* New Contact Button Styles for #consultation section */
+      .cta-contact-btn {
+        background-color: var(--dark);
+        color: white;
+        border-radius: 14px; /* 14-16px */
+        height: 52px; /* 48-56px, average 52 */
+        padding: 0 20px; /* 14-16px vert, 20-24px horiz */
+        font-size: 16px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px; /* Space between icon and text */
+        text-decoration: none; /* Ensure no underline */
+        transition: all 0.2s ease-in-out;
+        width: 100%; /* Full width on mobile */
+        position: relative; /* For shadow */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      .cta-contact-btn:hover {
+        filter: brightness(1.08); /* Slightly lighter background */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* Stronger shadow */
+      }
+      .cta-contact-btn:active {
+        filter: brightness(0.95); /* Slightly darker */
+        transform: translateY(0); /* Reset transform */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Reset shadow */
+      }
+      .cta-contact-btn:focus-visible {
+        outline: 2px solid #8AB4F8;
+        outline-offset: 2px;
+      }
+
+      .cta-contact-icon-circle {
+        background-color: #f3f5f7;
+        width: 34px; /* 32-36px */
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .cta-contact-icon-circle svg {
+        width: 19px; /* 18-20px */
+        height: 19px;
+        color: var(--dark); /* Dark icon */
+      }
     </style>
 
     <!-- Tailwind CSS CDN -->
@@ -471,6 +521,7 @@
               'light-warm-bg': 'var(--light-warm-bg)', /* New custom color for section background */
               'dark-hover': 'var(--dark-hover)', /* New custom color for accent card hover */
               'panel-bg': 'var(--panel-bg)', /* New custom color for section panel */
+              'blue-400': '#8AB4F8', /* For focus-visible ring */
             },
             backgroundImage: {
               'accent-grad': 'var(--accent-grad)',
@@ -479,6 +530,8 @@
             },
             borderRadius: {
               '2xl': 'var(--radius-lg)', /* Ensure global radius consistency */
+              '[22px]': '22px', /* For the new consultation card */
+              '[14px]': '14px', /* For the new consultation buttons */
             }
           }
         }
@@ -925,42 +978,36 @@
         </section>
 
         <!-- Консультация (New Consult Form Section) -->
-        <section id="consultation" class="bg-consult-grad rounded-2xl p-8 md:p-12 lg:p-16 mb-16 container">
-          <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <!-- Left Column: Text -->
-            <div class="lg:w-1/2 text-center lg:text-left">
-              <h2 class="text-white text-3xl md:text-4xl font-bold leading-tight mb-2">
+        <section id="consultation" class="bg-consult-grad py-14 md:py-16 lg:py-18">
+          <div class="container mx-auto px-4">
+            <div class="bg-white rounded-[22px] shadow-xl border border-gray-100 p-8 md:p-10 lg:p-12 max-w-[800px] mx-auto text-center">
+              <h2 class="text-dark text-3xl md:text-4xl lg:text-[32px] font-bold leading-tight mb-2">
                 Оставьте заявку на консультацию
               </h2>
-              <div class="section-line-accent mx-auto lg:mx-0 mb-4"></div>
-              <p class="text-white text-lg mb-6">
-                Заполните форму — я свяжусь с вами, чтобы обсудить цели и выбрать подходящий формат.
+              <p class="text-base text-[#404754] mb-8">
+                Свяжитесь со мной удобным способом — отвечу и помогу выбрать формат.
               </p>
-              <h3 class="text-white text-xl font-semibold mb-4">Контактные данные</h3>
-              <div class="space-y-4">
-                <div class="flex items-center justify-center lg:justify-start">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-3 text-[#dca4a4]">
-                    <path fill-rule="evenodd" d="M1.5 4.5a3 0 013-3h1.372c.860 0 1.610.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.907L6.75 11.25a11.25 11.25 0 0011.25 11.25l1.44-1.757a1.875 1.875 0 011.907-.606h4.423c.834.209 1.42.959 1.42 1.819V19.5a3 3 0 01-3 3h-2.25C10.065 22.5 1.5 13.935 1.5 4.5V2.25z" clip-rule="evenodd" />
-                  </svg>
-                  <a href="tel:+79215925158" class="text-white hover:text-[#dca4a4] text-lg transition-colors duration-300">+7 (921) 592 51 58</a>
-                </div>
-                <div class="flex items-center justify-center lg:justify-start">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-3 text-[#dca4a4]">
-                    <path d="M1.5 8.671L1.5 19.5c0 .65 0 .975.102 1.216.096.223.298.397.553.53.287.147.668.147 1.432.147H21c.764 0 1.145 0 1.432-.147.255-.133.457-.307.553-.53.102-.241.102-.566.102-1.216V8.671l-10.375 7.5c-.754.545-1.579.545-2.333 0L1.5 8.67Z" />
-                    <path d="M22.5 6.908V4.5c0-.65 0-.975-.102-1.216a2.002 2.002 0 00-.553-.53c-.287-.147-.668-.147-1.432-.147H3c-.764 0-1.145 0-1.432.147-.255-.133-.457-.307-.553.53C1.5 3.525 1.5 3.85 1.5 4.5v2.408l10.375 7.5a3.375 3.375 0 002.333 0L22.5 6.908Z" />
-                  </svg>
-                  <a href="mailto:vicktoriamelchakova@yandex.ru" class="text-white hover:text-[#dca4a4] text-lg transition-colors duration-300">vicktoriamelchakova@yandex.ru</a>
-                </div>
-              </div>
-            </div>
-            <!-- Right Column: Yandex Form Embed -->
-            <div class="lg:w-1/2 w-full">
-              <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-                <div class="form-embed" id="yandex-form-wrapper">
-                  <script src="https://forms.yandex.ru/_static/embed.js"></script>
-                  <iframe src="https://forms.yandex.ru/u/6908f56895add514447bb4ad?iframe=1" frameborder="0" name="ya-form-6908f56895add514447bb4ad" width="100%" style="min-height:520px; background: transparent; border: none;"></iframe>
-                </div>
-                 <p class="text-ink-muted text-center text-sm mt-4">Нажимая на кнопку, вы соглашаетесь с обработкой персональных данных и нашей <a href="https://disk.yandex.ru/i/q0YqPEJms5wOqA" target="_blank" rel="noopener noreferrer" class="text-dark hover:text-teal-accent transition-colors duration-300 underline">Политикой конфиденциальности</a>.</p>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <!-- Phone Button -->
+                <a href="tel:+79215925158" class="cta-contact-btn" aria-label="Позвонить по номеру +7 (921) 592-51-58">
+                  <div class="cta-contact-icon-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.860 0 1.610.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.907L6.75 11.25a11.25 11.25 0 0011.25 11.25l1.44-1.757a1.875 1.875 0 011.907-.606h4.423c.834.209 1.42.959 1.42 1.819V19.5a3 3 0 01-3 3h-2.25C10.065 22.5 1.5 13.935 1.5 4.5V2.25z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <span>Позвонить: +7 (921) 592-51-58</span>
+                </a>
+
+                <!-- Telegram Button -->
+                <a href="https://t.me/ViktoriMelchakova" target="_blank" rel="noopener noreferrer" class="cta-contact-btn" aria-label="Написать в Telegram Виктории @ViktoriMelchakova">
+                  <div class="cta-contact-icon-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M2.25 18.75a60.076 60.076 0 0115.794 3.337.75.75 0 00.75-1.282V5.113a1.5 1.5 0 00-1.077-1.488L2.25 18.75zM2.25 18.75V8.587A1.5 1.5 0 013.327 7.1L18.956 2.656a.75.75 0 01.994.09l1.157 1.341a.75.75 0 01-.094 1.168L2.25 18.75z" />
+                    </svg>
+                  </div>
+                  <span>Написать в Telegram: @ViktoriMelchakova</span>
+                </a>
               </div>
             </div>
           </div>
