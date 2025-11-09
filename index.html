@@ -456,19 +456,19 @@
       .cta-contact-btn {
         background-color: var(--dark);
         color: white;
-        border-radius: 14px; /* 14-16px */
-        height: 52px; /* 48-56px, average 52 */
-        padding: 0 20px; /* 14-16px vert, 20-24px horiz */
+        border-radius: 16px; /* Updated from 14px to 16px */
+        height: 48px; /* Consistent height, fulfills mobile 44-48px and desktop 48px */
+        padding: 0 20px; /* Default for mobile */
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700; /* Updated from 600 to 700 */
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 12px; /* Space between icon and text */
-        text-decoration: none; /* Ensure no underline */
+        gap: 12px;
+        text-decoration: none;
         transition: all 0.2s ease-in-out;
         width: 100%; /* Full width on mobile */
-        position: relative; /* For shadow */
+        position: relative;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       }
       .cta-contact-btn:hover {
@@ -484,6 +484,12 @@
       .cta-contact-btn:focus-visible {
         outline: 2px solid #8AB4F8;
         outline-offset: 2px;
+      }
+      @media (min-width: 640px) { /* Apply desktop styles from sm breakpoint */
+          .cta-contact-btn {
+              width: max-content; /* Desktop: width by content */
+              padding: 0 24px; /* Desktop: horizontal padding 24px */
+          }
       }
 
       .cta-contact-icon-circle {
@@ -588,7 +594,7 @@
             borderRadius: {
               '2xl': 'var(--radius-lg)', /* Ensure global radius consistency */
               '[22px]': '22px', /* For the new consultation card */
-              '[14px]': '14px', /* For the new consultation buttons */
+              '[16px]': '16px', /* For the new consultation button */
             }
           }
         }
@@ -1035,54 +1041,20 @@
         </section>
 
         <!-- Консультация (New Consult Form Section) -->
-        <section id="consultation" class="bg-consult-grad py-14 md:py-16 lg:py-18">
+        <section id="consultation" class="bg-consult-grad py-10 md:py-12 lg:py-14">
           <div class="container mx-auto px-4">
-            <div class="bg-white rounded-[22px] shadow-xl border border-gray-100 p-8 md:p-10 lg:p-12 max-w-[800px] mx-auto text-center">
-              <h2 class="text-dark text-3xl md:text-4xl lg:text-[32px] font-bold leading-tight mb-2">
-                Оставьте заявку на консультацию
-              </h2>
-              <p class="text-base text-[#404754] mb-8">
-                Свяжитесь со мной удобным способом — отвечу и помогу выбрать формат.
-              </p>
+            <div class="bg-white rounded-[22px] shadow-xl border border-gray-100 p-4 md:p-5 max-w-[800px] mx-auto text-center">
               
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+              <div class="grid grid-cols-1 justify-items-center mt-6">
                 <!-- Phone Button -->
-                <a href="tel:+79215925158" class="cta-contact-btn" aria-label="Позвонить по номеру +7 (921) 592-51-58">
+                <a href="tel:+79215925158" class="cta-contact-btn" aria-label="Позвонить Виктории по телефону">
                   <div class="cta-contact-icon-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                       <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.860 0 1.610.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.606 1.907L6.75 11.25a11.25 11.25 0 0011.25 11.25l1.44-1.757a1.875 1.875 0 011.907-.606h4.423c.834.209 1.42.959 1.42 1.819V19.5a3 3 0 01-3 3h-2.25C10.065 22.5 1.5 13.935 1.5 4.5V2.25z" clip-rule="evenodd" />
                     </svg>
                   </div>
                   <span>Позвонить: +7 (921) 592-51-58</span>
                 </a>
-
-                <!-- Telegram Button -->
-                <a href="https://t.me/ViktoriMelchakova" target="_blank" rel="noopener noreferrer" class="cta-contact-btn" aria-label="Написать в Telegram Виктории @ViktoriMelchakova">
-                  <div class="cta-contact-icon-circle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M2.25 18.75a60.076 60.076 0 0115.794 3.337.75.75 0 00.75-1.282V5.113a1.5 1.5 0 00-1.077-1.488L2.25 18.75zM2.25 18.75V8.587A1.5 1.5 0 013.327 7.1L18.956 2.656a.75.75 0 01.994.09l1.157 1.341a.75.75 0 01-.094 1.168L2.25 18.75z" />
-                    </svg>
-                  </div>
-                  <span>Написать в Telegram: @ViktoriMelchakova</span>
-                </a>
-              </div>
-
-              <!-- NEW TELEGRAM CHANNEL BLOCK -->
-              <div class="mt-5 p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-[16px] bg-white border-[1.5px] border-[rgba(42,58,74,.18)] text-left">
-                  <div class="flex items-start sm:items-center gap-3">
-                      <div class="telegram-channel-icon-circle" aria-hidden="true">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2.25 18.75a60.076 60.076 0 0115.794 3.337.75.75 0 00.75-1.282V5.113a1.5 1.5 0 00-1.077-1.488L2.25 18.75zM2.25 18.75V8.587A1.5 1.5 0 013.327 7.1L18.956 2.656a.75.75 0 01.994.09l1.157 1.341a.75.75 0 01-.094 1.168L2.25 18.75z" />
-                          </svg>
-                      </div>
-                      <div>
-                          <h3 class="font-bold text-base md:text-lg text-dark mb-1 leading-tight">Канал в Telegram</h3>
-                          <p class="text-sm md:text-[15px] text-[#404754] leading-normal">Канал, в котором много информации о нюансах поиска работы.</p>
-                      </div>
-                  </div>
-                  <a href="https://t.me/biznescomanda" target="_blank" rel="noopener noreferrer" class="cta-telegram-channel w-full sm:w-auto" aria-label="Подписаться на Telegram-канал">
-                      Подписаться →
-                  </a>
               </div>
 
             </div>
